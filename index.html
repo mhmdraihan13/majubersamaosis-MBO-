@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maju Bersama OSIS (MBO) | Pusat Informasi & Kolaborasi Sekolah</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca' },
+                        brand: { 50: '#f0fdf4', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); }
+        .dark .glass-nav { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); }
+        .hero-gradient { background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 50%, #10b981 100%); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('beranda')">
+                <div class="w-12 h-12 rounded-2xl hero-gradient flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-bold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase">SMK BISA / HEBAT</span>
+                    <h1 class="text-lg font-black tracking-tight text-slate-900 dark:text-white">MBO <span class="text-indigo-600 dark:text-indigo-400">OSIS</span></h1>
+                </div>
+            </div>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 transition">Beranda</button>
+                <button onclick="switchTab('informasi')" id="nav-informasi" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition">Informasi & Agenda</button>
+                <button onclick="switchTab('aspirasi')" id="nav-aspirasi" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition">Wadah Aspirasi</button>
+                <button onclick="switchTab('galeri')" id="nav-galeri" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition">Galeri & Dokumentasi</button>
+                <button onclick="switchTab('prestasi')" id="nav-prestasi" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition">Ruang Prestasi</button>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:scale-105 transition shadow-sm">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline text-amber-400"></i>
+                </button>
+                <button onclick="openModal('loginModal')" class="hidden sm:inline-flex px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-600/30 transition">
+                    <i class="fa-solid fa-right-to-bracket mr-2"></i> Portal Login
+                </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-2 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+            <button onclick="switchTab('beranda'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-indigo-600 bg-indigo-50 dark:bg-indigo-950">Beranda</button>
+            <button onclick="switchTab('informasi'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300">Informasi & Agenda</button>
+            <button onclick="switchTab('aspirasi'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300">Wadah Aspirasi</button>
+            <button onclick="switchTab('galeri'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300">Galeri & Dokumentasi</button>
+            <button onclick="switchTab('prestasi'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300">Ruang Prestasi</button>
+        </div>
+    </header>
+
+    <main class="pt-24 min-h-screen pb-16">
+
+        <!-- VIEW: BERANDA -->
+        <section id="view-beranda" class="view-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-12">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl hero-gradient text-white p-8 sm:p-12 lg:p-16 shadow-2xl">
+                <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-white/10 blur-3xl pointer-events-none"></div>
+                <div class="relative z-10 max-w-2xl space-y-6">
+                    <span class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-sparkles text-amber-300"></i> <span>Platform Kolaborasi Warga Sekolah</span>
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">Maju Bersama OSIS (MBO)</h1>
+                    <p class="text-lg text-indigo-100 font-normal leading-relaxed">
+                        Pusat informasi digital, wadah aspirasi siswa transparan, dan jembatan komunikasi harmonis antara siswa, guru, dan pengurus sekolah. Dirancang khusus dengan semangat TKJ yang solutif & modern!
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <button onclick="switchTab('aspirasi')" class="px-6 py-3.5 bg-white text-indigo-600 font-bold rounded-2xl shadow-lg hover:bg-slate-100 transition transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-bullhorn mr-2"></i> Sampaikan Aspirasi
+                        </button>
+                        <button onclick="switchTab('informasi')" class="px-6 py-3.5 bg-indigo-900/40 border border-white/30 backdrop-blur-md text-white font-bold rounded-2xl hover:bg-indigo-900/60 transition">
+                            <i class="fa-solid fa-calendar-days mr-2"></i> Lihat Agenda Sekolah
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-black text-slate-900 dark:text-white">1,250+</div>
+                        <div class="text-xs text-slate-500 font-medium">Warga Sekolah</div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-black text-slate-900 dark:text-white" id="stat-aspirasi">348</div>
+                        <div class="text-xs text-slate-500 font-medium">Aspirasi Diproses</div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-black text-slate-900 dark:text-white">42</div>
+                        <div class="text-xs text-slate-500 font-medium">Prestasi Juara</div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-black text-slate-900 dark:text-white">18</div>
+                        <div class="text-xs text-slate-500 font-medium">Agenda Aktif</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="space-y-6">
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Fitur Unggulan MBO OSIS</h2>
+                    <p class="text-slate-500 text-sm">Dirancang dengan standar fungsionalitas tinggi untuk memudahkan seluruh warga sekolah berkolaborasi.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-indigo-500 transition group space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Aspirasi Transparan</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Sampaikan saran, kritik, atau aduan fasilitas sekolah secara langsung dan pantau status penanganannya secara real-time.</p>
+                        <button onclick="switchTab('aspirasi')" class="text-indigo-600 dark:text-indigo-400 font-semibold text-sm flex items-center space-x-1 hover:underline">
+                            <span>Kirim Aspirasi</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-emerald-500 transition group space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Informasi & Agenda</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Jangan ketinggalan jadwal kegiatan sekolah, classmeeting, lomba antar kelas, hingga pengumuman penting OSIS.</p>
+                        <button onclick="switchTab('informasi')" class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm flex items-center space-x-1 hover:underline">
+                            <span>Lihat Agenda</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-amber-500 transition group space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
+                            <i class="fa-solid fa-images"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Galeri Dokumentasi</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed>Koleksi foto dan video momen berharga setiap event sekolah, workshop kejuruan, hingga pentas seni siswa.</p>
+                        <button onclick="switchTab('galeri')" class="text-amber-600 dark:text-amber-400 font-semibold text-sm flex items-center space-x-1 hover:underline">
+                            <span>Jelajahi Galeri</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-sky-500 transition group space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-sky-50 dark:bg-sky-950 text-sky-600 dark:text-sky-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Ruang Prestasi</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed>Apresiasi tertinggi bagi siswa-siswi berprestasi di tingkat kabupaten, provinsi, hingga nasional dalam bidang akademik & IT.</p>
+                        <button onclick="switchTab('prestasi')" class="text-sky-600 dark:text-sky-400 font-semibold text-sm flex items-center space-x-1 hover:underline">
+                            <span>Lihat Prestasi</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: INFORMASI & AGENDA -->
+        <section id="view-informasi" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
+                <div>
+                    <h2 class="text-3xl font-black tracking-tight">Pusat Informasi & Agenda Kegiatan</h2>
+                    <p class="text-slate-500 text-sm mt-1">Jadwal resmi kegiatan OSIS dan sekolah periode ini.</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 rounded-full text-xs font-bold">Status: Kalender Aktif</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Agenda List -->
+                <div class="lg:col-span-2 space-y-4" id="agendaListContainer">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <!-- Sidebar Pengumuman Terbaru -->
+                <div class="space-y-6">
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                        <div class="flex items-center space-x-3 text-indigo-600 dark:text-indigo-400 font-bold">
+                            <i class="fa-solid fa-bullhorn text-lg"></i>
+                            <h3>Pengumuman Penting</h3>
+                        </div>
+                        <div class="space-y-4 divide-y divide-slate-100 dark:divide-slate-800">
+                            <div class="pt-3 first:pt-0 space-y-1">
+                                <span class="text-[10px] bg-red-100 text-red-600 dark:bg-red-950 dark:text-red-400 px-2 py-0.5 rounded font-bold uppercase">Penting</span>
+                                <h4 class="font-bold text-sm">Pemilihan Ketua OSIS Periode 2026/2027</h4>
+                                <p class="text-xs text-slate-500">Debat terbuka calon ketua OSIS akan diselenggarakan di lapangan utama hari Jumat pukul 08:00 WIB.</p>
+                            </div>
+                            <div class="pt-3 space-y-1">
+                                <span class="text-[10px] bg-indigo-100 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400 px-2 py-0.5 rounded font-bold uppercase">Akademik</span>
+                                <h4 class="font-bold text-sm">Workshop Jaringan Komputer & Mikrotik</h4>
+                                <p class="text-xs text-slate-500">Pelatihan khusus siswa jurusan TKJ bekerja sama dengan industri mitra minggu depan.</p>
+                            </div>
+                            <div class="pt-3 space-y-1">
+                                <span class="text-[10px] bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400 px-2 py-0.5 rounded font-bold uppercase">Kegiatan</span>
+                                <h4 class="font-bold text-sm">Bakti Sosial OSIS Peduli</h4>
+                                <p class="text-xs text-slate-500">Pengumpulan sumbangan pakaian layak pakai dibuka di ruang sekretariat OSIS.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: WADAH ASPIRASI -->
+        <section id="view-aspirasi" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
+                <div>
+                    <h2 class="text-3xl font-black tracking-tight">Wadah Aspirasi Siswa</h2>
+                    <p class="text-slate-500 text-sm mt-1">Sampaikan ide, kritik fasilitas, atau aduanmu secara aman & transparan.</p>
+                </div>
+                <button onclick="openModal('aspirasiModal')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm shadow-lg shadow-indigo-600/30 transition flex items-center space-x-2 self-start">
+                    <i class="fa-solid fa-plus"></i> <span>Kirim Aspirasi Baru</span>
+                </button>
+            </div>
+
+            <!-- Filter Status Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+                <div class="flex items-center space-x-2 overflow-x-auto">
+                    <button onclick="filterAspirasi('semua')" id="filter-semua" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white transition">Semua</button>
+                    <button onclick="filterAspirasi('Menunggu')" id="filter-Menunggu" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition">Menunggu</button>
+                    <button onclick="filterAspirasi('Diproses')" id="filter-Diproses" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition">Sedang Diproses</button>
+                    <button onclick="filterAspirasi('Selesai')" id="filter-Selesai" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition">Selesai</button>
+                </div>
+                <div class="text-xs text-slate-500 font-medium">
+                    Total Aspirasi Masuk: <span id="totalAspirasiCount" class="font-bold text-slate-900 dark:text-white">0</span>
+                </div>
+            </div>
+
+            <!-- Aspirasi Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="aspirasiGridContainer">
+                <!-- Populated dynamically -->
+            </div>
+        </section>
+
+        <!-- VIEW: GALERI & DOKUMENTASI -->
+        <section id="view-galeri" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
+                <div>
+                    <h2 class="text-3xl font-black tracking-tight">Galeri & Dokumentasi Kegiatan</h2>
+                    <p class="text-slate-500 text-sm mt-1">Rekaman visual keseruan berbagai event dan aktivitas di lingkungan sekolah.</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="filterGaleri('semua')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white">Semua</button>
+                    <button onclick="filterGaleri('Event')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Event</button>
+                    <button onclick="filterGaleri('Akademik')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Akademik</button>
+                    <button onclick="filterGaleri('Seni')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Seni & Olahraga</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="galeriGridContainer">
+                <!-- Populated dynamically -->
+            </div>
+        </section>
+
+        <!-- VIEW: RUANG PRESTASI -->
+        <section id="view-prestasi" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
+                <div>
+                    <h2 class="text-3xl font-black tracking-tight">Ruang Prestasi Warga Sekolah</h2>
+                    <p class="text-slate-500 text-sm mt-1">Deretan kebanggaan siswa-siswi yang mengharumkan nama sekolah.</p>
+                </div>
+                <div class="px-4 py-2 bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 rounded-xl text-xs font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-award"></i> <span>Tahun Ajaran 2025/2026</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="prestasiGridContainer">
+                <!-- Populated dynamically -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl hero-gradient flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h3 class="font-black text-slate-900 dark:text-white">Maju Bersama OSIS (MBO)</h3>
+                    <p class="text-xs text-slate-500">Pusat Informasi, Aspirasi, & Kolaborasi Warga Sekolah</p>
+                </div>
+            </div>
+            <div class="text-xs text-slate-500">
+                &copy; 2026 MBO OSIS SMK. Dibuat dengan penuh dedikasi oleh Jurusan TKJ.
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: Kirim Aspirasi -->
+    <div id="aspirasiModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-6 relative">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-black">Kirim Aspirasi Baru</h3>
+                    <p class="text-xs text-slate-500">Suaramu sangat berarti untuk kemajuan sekolah.</p>
+                </div>
+                <button onclick="closeModal('aspirasiModal')" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:bg-slate-200">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="aspirasiForm" onsubmit="handleAspirasiSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Nama Lengkap (Opsional / Anonim)</label>
+                    <input type="text" id="inputNama" placeholder="Contoh: Rian Pratama (Bisa dikosongkan untuk anonim)" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Kelas</label>
+                        <select id="inputKelas" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="XII TKJ 1">XII TKJ 1</option>
+                            <option value="XII TKJ 2">XII TKJ 2</option>
+                            <option value="XI TKJ 1">XI TKJ 1</option>
+                            <option value="XI TKJ 2">XI TKJ 2</option>
+                            <option value="X TKJ">X TKJ</option>
+                            <option value="Lainnya">Jurusan Lain / Guru</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Kategori</label>
+                        <select id="inputKategori" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="Fasilitas">Fasilitas Sekolah</option>
+                            <option value="Akademik">Kegiatan Belajar</option>
+                            <option value="Ekstrakurikuler">Ekstrakurikuler</option>
+                            <option value="Kebersihan">Kebersihan & Lingkungan</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Isi Aspirasi & Pesan</label>
+                    <textarea id="inputPesan" rows="4" required placeholder="Tuliskan saran, kritik membangun, atau laporan kendala secara detail..." class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                </div>
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closeModal('aspirasiModal')" class="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-sm">Batal</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-600/30">Kirim Aspirasi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Portal Login (Simulasi) -->
+    <div id="loginModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-sm w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-6 relative">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-black">Portal Login</h3>
+                    <p class="text-xs text-slate-500">Khusus Pengurus OSIS & Guru Pembina.</p>
+                </div>
+                <button onclick="closeModal('loginModal')" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:bg-slate-200">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Username / NISN</label>
+                    <input type="text" placeholder="Masukkan ID Pengguna" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Password</label>
+                    <input type="password" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <button onclick="showCustomNotification('Simulasi Login Berhasil! Selamat datang administrator.'); closeModal('loginModal');" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-600/30">
+                    Masuk Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Notification Box (No alert()) -->
+    <div id="customNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 max-w-sm bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-5 py-4 rounded-2xl shadow-2xl flex items-center space-x-3 border border-slate-800 dark:border-slate-200">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <div class="text-xs font-semibold" id="notificationText">Pesan berhasil dikirim!</div>
+    </div>
+
+    <script>
+        // Data Mockup for Dynamic rendering
+        const agendaData = [
+            { id: 1, title: "Porsenitas Antar Kelas 2026", date: "28 - 30 Maret 2026", location: "Lapangan & Aula Utama", desc: "Pertandingan persahabatan bola voli, e-sports (Mobile Legends), dan lomba akustik antar jurusan.", category: "Olahraga & Seni", status: "Akan Datang" },
+            { id: 2, title: "Pelatihan Dasar Kepemimpinan (LDK) OSIS", date: "15 April 2026", location: "Aula Serbaguna", desc: "Pembentukan karakter kepemimpinan dan manajemen organisasi bagi calon pengurus OSIS baru.", category: "Organisasi", status: "Terjadwal" },
+            { id: 3, title: "Pameran Karya Inovasi & Produk Kreatif TKJ", date: "02 Mei 2026", location: "Lab Komputer 1 & 2", desc: "Showcase hasil rakitan jaringan server lokal, instalasi fiber optic, dan aplikasi web karya siswa TKJ.", category: "Akademik", status: "Persiapan" },
+            { id: 4, title: "Upacara Peringatan Hari Pendidikan Nasional", date: "02 Mei 2026", location: "Lapangan Upacara Sekolah", desc: "Seluruh warga sekolah mengenakan pakaian adat Nusantara dalam rangka memperingati Hardiknas.", category: "Nasional", status: "Terjadwal" }
+        ];
+
+        let aspirasiData = [
+            { id: 101, nama: "Ahmad Fauzi", kelas: "XI TKJ 1", kategori: "Fasilitas", pesan: "Mohon penambahan access point Wi-Fi di area kantin belakang agar sinyal praktikum materi jaringan lebih stabil.", status: "Diproses", tanggal: "20 Mar 2026" },
+            { id: 102, nama: "Siti Aminah", kelas: "XII TKJ 2", kategori: "Akademik", pesan: "Usul jam tambahan persiapan Uji Kompetensi Keahlian (UKK) untuk jurusan TKJ diperpanjang saat sore hari.", status: "Selesai", tanggal: "18 Mar 2026" },
+            { id: 103, nama: "Anonim", kelas: "X TKJ", kategori: "Kebersihan", pesan: "Perlunya penambahan tempat sampah terpilah di koridor dekat ruang praktik komputer.", status: "Menunggu", tanggal: "21 Mar 2026" }
+        ];
+
+        const galeriData = [
+            { id: 1, title: "Praktikum Fiber Optic Siswa TKJ", category: "Akademik", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR61DddYX5ZJaIEZE_Ah_IUw8urBvGzNALoDJLThnK0pXA1aXO0JlpIGpmP&s=10" },
+            { id: 2, title: "Juara Umum Lomba IT School Cup", category: "Event", image: "https://www.darmajaya.ac.id/wp-content/uploads/3-89.jpg" },
+            { id: 3, title: "Pentas Seni Akhir Semester", category: "Seni", image: "https://smkn37jkt.sch.id/upload/image/img_6a5d71efa3836.jpeg" },
+            { id: 4, title: "Rapat Pleno Koordinasi Pengurus OSIS", category: "Event", image: "https://media.licdn.com/dms/image/v2/D5622AQFrylnU5apVPw/feedshare-shrink_800/B56ZuqNm1FG0Ag-/0/1768087252797?e=2147483647&v=beta&t=CLrNaVCpZBLIPhEd6XZEA3s2PV7SenC0ygyjXTTsAl4" },
+            { id: 5, title: "Bakti Sosial & Peduli Lingkungan", category: "Seni", image: "https://fkik.unram.ac.id/wp-content/uploads/2025/06/Picture6-3.jpg" },
+            { id: 6, title: "Seminar Keamanan Siber Remaja", category: "Akademik", image: "https://media.licdn.com/dms/image/v2/C4E1BAQEUpzW_kWMlHQ/company-background_10000/company-background_10000/0/1630053428867/smkn_9_kabupaten_tangerang_cover?e=2147483647&v=beta&t=StJfRFrH2q5R4pqxFHucgFxkruxqHb4cNJTcJ0a1TgY" }
+        ];
+
+        const prestasiData = [
+            { id: 1, name: "Tim E-Sports MBO TKJ", title: "Juara 1 Turnamen E-Sports Antar SMK Se-Kabupaten", level: "Tingkat Kabupaten", year: "2026", badge: "E-Sports" },
+            { id: 2, name: "Rian Hidayat", title: "Medali Emas Kompetisi Jaringan Komputer (LKS)", level: "Tingkat Provinsi", year: "2025", badge: "Akademik / TKJ" },
+            { id: 3, name: "Dewi Lestari", title: "Juara 1 Lomba Pidato Bahasa Inggris Antar Pelajar", level: "Tingkat Kabupaten", year: "2026", badge: "Bahasa" },
+            { id: 4, name: "Klub Paduan Suara OSIS", title: "Juara 2 Festival Seni Pelajar Nusantara", level: "Tingkat Regional", year: "2025", badge: "Seni" }
+        ];
+
+        let currentAspirasiFilter = 'semua';
+
+        // Initialization on Load
+        window.onload = function() {
+            renderAgenda();
+            renderAspirasi();
+            renderGaleri();
+            renderPrestasi();
+        };
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('view-' + tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-indigo-600', 'dark:text-indigo-400', 'bg-indigo-50', 'dark:bg-indigo-950/50');
+                btn.classList.add('text-slate-600', 'dark:text-slate-300');
+            });
+
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if(activeBtn) {
+                activeBtn.classList.add('text-indigo-600', 'dark:text-indigo-400', 'bg-indigo-50', 'dark:bg-indigo-950/50');
+                activeBtn.classList.remove('text-slate-600', 'dark:text-slate-300');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Modal Controls
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Custom Notification Box
+        function showCustomNotification(text) {
+            const notif = document.getElementById('customNotification');
+            document.getElementById('notificationText').innerText = text;
+            notif.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                notif.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+
+        // Render Agenda
+        function renderAgenda() {
+            const container = document.getElementById('agendaListContainer');
+            container.innerHTML = agendaData.map(item => `
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400">${item.category}</span>
+                            <span class="text-xs text-slate-400"><i class="fa-solid fa-location-dot mr-1"></i>${item.location}</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white">${item.title}</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">${item.desc}</p>
+                    </div>
+                    <div class="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100 dark:border-slate-800">
+                        <div class="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-3 py-1.5 rounded-xl">${item.date}</div>
+                        <span class="text-[10px] text-slate-400 mt-1 uppercase font-semibold">${item.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render Aspirasi
+        function renderAspirasi() {
+            const container = document.getElementById('aspirasiGridContainer');
+            document.getElementById('stat-aspirasi').innerText = 345 + aspirasiData.length;
+            document.getElementById('totalAspirasiCount').innerText = aspirasiData.length;
+
+            let filtered = aspirasiData;
+            if (currentAspirasiFilter !== 'semua') {
+                filtered = aspirasiData.filter(a => a.status === currentAspirasiFilter);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-sm">Tidak ada aspirasi dengan status ini.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => {
+                let badgeColor = 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300';
+                if(item.status === 'Diproses') badgeColor = 'bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300';
+                if(item.status === 'Selesai') badgeColor = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300';
+
+                return `
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400">${item.kategori}</span>
+                                <span class="px-3 py-1 rounded-full text-xs font-bold ${badgeColor}">${item.status}</span>
+                            </div>
+                            <p class="text-sm text-slate-700 dark:text-slate-300 italic leading-relaxed">"${item.pesan}"</p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                            <div>
+                                <span class="font-bold text-slate-900 dark:text-white">${item.nama}</span>
+                                <span class="ml-1 px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[10px]">${item.kelas}</span>
+                            </div>
+                            <span>${item.tanggal}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterAspirasi(status) {
+            currentAspirasiFilter = status;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+            });
+            const activeBtn = document.getElementById('filter-' + status);
+            if(activeBtn) {
+                activeBtn.classList.add('bg-indigo-600', 'text-white');
+                activeBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+            }
+            renderAspirasi();
+        }
+
+        // Handle Aspirasi Form Submit
+        function handleAspirasiSubmit(e) {
+            e.preventDefault();
+            const namaInput = document.getElementById('inputNama').value.trim();
+            const kelas = document.getElementById('inputKelas').value;
+            const kategori = document.getElementById('inputKategori').value;
+            const pesan = document.getElementById('inputPesan').value.trim();
+
+            const newAspirasi = {
+                id: Date.now(),
+                nama: namaInput === '' ? 'Anonim' : namaInput,
+                kelas: kelas,
+                kategori: kategori,
+                pesan: pesan,
+                status: 'Menunggu',
+                tanggal: 'Hari ini'
+            };
+
+            aspirasiData.unshift(newAspirasi);
+            renderAspirasi();
+            closeModal('aspirasiModal');
+            document.getElementById('aspirasiForm').reset();
+            showCustomNotification('Aspirasi berhasil dikirim ke sistem OSIS!');
+        }
+
+        // Render Galeri
+        function renderGaleri(filterCat = 'semua') {
+            const container = document.getElementById('galeriGridContainer');
+            let filtered = galeriData;
+            if (filterCat !== 'semua') {
+                filtered = galeriData.filter(g => g.category === filterCat);
+            }
+
+            container.innerHTML = filtered.map(item => `
+                <div class="group relative overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm aspect-video">
+                    <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/600x400/4f46e5/ffffff?text=MBO+Galeri'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6">
+                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">${item.category}</span>
+                        <h4 class="text-white font-bold text-base mt-1">${item.title}</h4>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterGaleri(category) {
+            renderGaleri(category);
+        }
+
+        // Render Prestasi
+        function renderPrestasi() {
+            const container = document.getElementById('prestasiGridContainer');
+            container.innerHTML = prestasiData.map(item => `
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 hover:border-amber-500 transition group">
+                    <div class="flex items-center justify-between">
+                        <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${item.year}</span>
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">${item.badge}</span>
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white">${item.name}</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">${item.title}</p>
+                    </div>
+                    <div class="pt-2 border-t border-slate-100 dark:border-slate-800 text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center">
+                        <i class="fa-solid fa-medal mr-2"></i> ${item.level}
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
